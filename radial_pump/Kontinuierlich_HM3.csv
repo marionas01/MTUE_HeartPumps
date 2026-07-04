@@ -1,4 +1,4 @@
-time,Druck1,Druckdifferenz,V
+time,Druck1,Druckdifferenz H,Volumenstrom Q
 0,0,0,1.438136705
 0.1,0.00651504,0.003189074,1.452921785
 0.2,-0.010023139,-0.004906267,1.447952779

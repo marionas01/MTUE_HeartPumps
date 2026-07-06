@@ -109,14 +109,47 @@ def plot_std(data: list[dict], col_names: list[str], rpm: list) -> None:
 
             axes[idx].set_axisbelow(True)
             axes[idx].grid(color='gray', linestyle='dashed')
-            #axes[idx].bar([str(x) for x in d["Timestamp"]], d[f"{col}_mean"])
             axes[idx].bar([str(x) for x in d["Timestamp"]], [(s/m) for s, m in zip(d[col], d[f"{col}_mean"])])
-            #axes[idx].errorbar([str(x) for x in d["Timestamp"]], d[f"{col}_mean"], yerr=d[col],
-            #                   fmt="o", color="k")
             axes[idx].set_title(col_names[idx])
             axes[idx].set_xlabel("Timestamp in s")
             axes[idx].set_ylabel("Variationskoeffizient")
-            #axes[idx].set_ylabel(f"Standardabweichung von {y_labels[idx]}")
 
         plt.tight_layout()
         plt.show()
+
+
+def evaluate_pulsatile(path, rpm, t_start, t_end):
+
+    df = pd.read_csv(path)
+
+    # Zeitbereiche
+    df = df[(df["time"] >= t_start) & (df["time"] <= t_end)]
+
+    # Kennwerte
+    mean_H = df["Druckdifferenz H"].mean()
+    std_H = df["Druckdifferenz H"].std()
+    cv_H = std_H / mean_H
+
+    mean_Q = df["Volumenstrom Q"].mean()
+    std_Q = df["Volumenstrom Q"].std()
+    cv_Q = std_Q / mean_Q
+
+    print(f"\n----- Pulsatil {rpm} rpm ({t_start}-{t_end} s) -----")
+    print(f"H: <Mean> = {mean_H:.2f}, <STD> = {std_H:.2f}, <CV> = {cv_H:.3f}")
+    print(f"Q: <Mean> = {mean_Q:.2f}, <STD> = {std_Q:.2f}, <CV> = {cv_Q:.3f}")
+
+    # Zeitverläufe
+    fig, axes = plt.subplots(2, 1, figsize=(15, 7.5), sharex=True)
+
+    axes[0].plot(df["time"], df["Druckdifferenz H"])
+    axes[0].set_ylabel("Druckdifferenz H [mmHg]")
+    axes[0].grid(True)
+
+    axes[1].plot(df["time"], df["Volumenstrom Q"])
+    axes[1].set_xlabel("Zeit [s]")
+    axes[1].set_ylabel("Volumenstrom [L/min]")
+    axes[1].grid(True)
+
+    fig.suptitle(f"Pulsatiler Betrieb - {rpm} rpm")
+    plt.tight_layout()
+    plt.show()

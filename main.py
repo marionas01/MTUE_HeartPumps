@@ -26,11 +26,6 @@ if __name__ == '__main__':
              col_names=["Druckdifferenz H", "Volumenstrom Q"],
              rpm=[4000, 6000, 8000])
 
-    # Axial Pump
-    # dict_4000 = {"V1": 273, "V2": 390, "V3": 542, "V4": 595, "V5": 100}
-    # dict_6000 = {"V1": 1263, "V2": 1228, "V3": 1163, "V4": 1031, "V5": 887, "V6": 819}
-    # dict_8000 = {"V1": 1263, "V2": 1228, "V3": 1163, "V4": 1031, "V5": 887, "V6": 819}
-
     # Original Data
     """
     df = pd.read_csv(path, skiprows=0)
@@ -41,3 +36,12 @@ if __name__ == '__main__':
     plt.tight_layout()
     plt.show()
     """
+
+    # Pulsatile Messungen
+    path_4000 = "radial_pump/Pulsatil_4000rpm.csv"
+    path_6000 = "radial_pump/Pulsatil_6000rpm.csv"
+    path_8000 = "radial_pump/Pulsatil_8000rpm.csv"
+
+    evaluate_pulsatile("radial_pump/Pulsatil_4000rpm.csv", 4000, 9, 21)
+    evaluate_pulsatile("radial_pump/Pulsatil_6000rpm.csv", 6000, 55, 64)
+    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 95.2, 102)

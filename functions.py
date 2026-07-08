@@ -57,7 +57,7 @@ def plot_pump_curve(data: list[dict], col_names: list, rpm: list) -> None:
         plt.show()
 
 
-def plot_boxplot(data: list[dict], col_names: list[str], by_list: list[str], rpm: list) -> None:
+def plot_boxplot(data: list[dict], col_names: list[str], by_list: list[str] | str, rpm: list) -> None:
     if len(data) != len(rpm):
         raise ValueError("Length of data and rpm lists does not match!")
 
@@ -70,7 +70,7 @@ def plot_boxplot(data: list[dict], col_names: list[str], by_list: list[str], rpm
         if len(col_names) == 1:
             axes = [axes]  # keep it iterable/subscriptable for a single column
 
-        y_labels = ["H in mmHg", "Q in L/min"]
+        y_labels = ["Druckdifferenz H in mmHg", "Volumenstrom Q in L/min"]
 
         for idx, col in enumerate(col_names):
             df_box.boxplot(column=col, by=by_list, ax=axes[idx])

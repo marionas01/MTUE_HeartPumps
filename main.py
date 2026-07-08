@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     plot_boxplot(data=data,
                  col_names=["Druckdifferenz H", "Volumenstrom Q"],
-                 rpm=[4000, 6000, 8000], by_list=["Timestamp"])
+                 rpm=[4000, 6000, 8000], by_list="Timestamp")
 
     plot_std(data=data,
              col_names=["Druckdifferenz H", "Volumenstrom Q"],
@@ -44,4 +44,4 @@ if __name__ == '__main__':
 
     evaluate_pulsatile("radial_pump/Pulsatil_4000rpm.csv", 4000, 9, 21)
     evaluate_pulsatile("radial_pump/Pulsatil_6000rpm.csv", 6000, 55, 64)
-    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 95.2, 102)
+    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 91, 95)

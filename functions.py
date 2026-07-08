@@ -126,7 +126,7 @@ def plot_std(data: list[dict], col_names: list[str], rpm: list) -> None:
             axes[idx].grid(color='gray', linestyle='dashed')
             axes[idx].bar(x_bar_sorted, y_bar_sorted)
             # axes[idx].bar([str(x) for x in d["Timestamp"]], [(s/m)*100 for s, m in zip(d[col], d[f"{col}_mean"])])
-            axes[idx].set_title(f"{col_names[idx]} - Mittelwert:{mean_var_coef:.2f}")
+            axes[idx].set_title(f"{col_names[idx]} - Mittelwert:{mean_var_coef:.2f}%")
             axes[idx].set_xlabel("Timestamp in s")
             axes[idx].set_ylabel("Variationskoeffizient in %")
 

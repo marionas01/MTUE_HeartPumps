@@ -65,6 +65,7 @@ def plot_boxplot(data: list[dict], col_names: list[str], by_list: list[str] | st
         df_box = pd.DataFrame()
         for key in dd.keys():
             df_box = pd.concat([df_box, dd[key]], ignore_index=True)
+        print(df_box)
 
         fig, axes = plt.subplots(1, len(col_names), figsize=(15, 7.5))
         if len(col_names) == 1:
@@ -106,13 +107,23 @@ def plot_std(data: list[dict], col_names: list[str], rpm: list) -> None:
         fig.suptitle(f"Drehzahl = {i} rpm")
         y_labels = ["H in mmHg", "Q in L/min"]
         for idx, col in enumerate(col_names):
+            x_bar = [x for x in d["Timestamp"]]
+            y_bar = [(s/m)*100 for s, m in zip(d[col], d[f"{col}_mean"])]
+
+            x_y_bar_sorted = sorted(zip(x_bar, y_bar))
+            x_bar_sorted, y_bar_sorted = zip(*x_y_bar_sorted)
+
+            x_bar_sorted = list(x_bar_sorted)
+            x_bar_sorted = [str(x) for x in x_bar_sorted]
+            y_bar_sorted = list(y_bar_sorted)
 
             axes[idx].set_axisbelow(True)
             axes[idx].grid(color='gray', linestyle='dashed')
-            axes[idx].bar([str(x) for x in d["Timestamp"]], [(s/m) for s, m in zip(d[col], d[f"{col}_mean"])])
+            axes[idx].bar(x_bar_sorted, y_bar_sorted)
+            # axes[idx].bar([str(x) for x in d["Timestamp"]], [(s/m)*100 for s, m in zip(d[col], d[f"{col}_mean"])])
             axes[idx].set_title(col_names[idx])
             axes[idx].set_xlabel("Timestamp in s")
-            axes[idx].set_ylabel("Variationskoeffizient")
+            axes[idx].set_ylabel("Variationskoeffizient in %")
 
         plt.tight_layout()
         plt.show()

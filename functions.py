@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+import statistics
+
 
 def sort_data(path: str, dictionary: dict, index_range: int) -> dict:
 
@@ -65,7 +67,6 @@ def plot_boxplot(data: list[dict], col_names: list[str], by_list: list[str] | st
         df_box = pd.DataFrame()
         for key in dd.keys():
             df_box = pd.concat([df_box, dd[key]], ignore_index=True)
-        print(df_box)
 
         fig, axes = plt.subplots(1, len(col_names), figsize=(15, 7.5))
         if len(col_names) == 1:
@@ -76,6 +77,7 @@ def plot_boxplot(data: list[dict], col_names: list[str], by_list: list[str] | st
         for idx, col in enumerate(col_names):
             df_box.boxplot(column=col, by=by_list, ax=axes[idx])
             axes[idx].set_ylabel(y_labels[idx])
+            axes[idx].set_xlabel("Timestamp in s")
 
         fig.suptitle(f"Drehzahl = {i} rpm")
         plt.tight_layout()
@@ -117,11 +119,14 @@ def plot_std(data: list[dict], col_names: list[str], rpm: list) -> None:
             x_bar_sorted = [str(x) for x in x_bar_sorted]
             y_bar_sorted = list(y_bar_sorted)
 
+            mean_var_coef = statistics.mean(y_bar_sorted)
+            print(f"Drehzahl:{i} - Column:{col} - Mean VarKoeff:{mean_var_coef}")
+
             axes[idx].set_axisbelow(True)
             axes[idx].grid(color='gray', linestyle='dashed')
             axes[idx].bar(x_bar_sorted, y_bar_sorted)
             # axes[idx].bar([str(x) for x in d["Timestamp"]], [(s/m)*100 for s, m in zip(d[col], d[f"{col}_mean"])])
-            axes[idx].set_title(col_names[idx])
+            axes[idx].set_title(f"{col_names[idx]} - Mittelwert:{mean_var_coef:.2f}")
             axes[idx].set_xlabel("Timestamp in s")
             axes[idx].set_ylabel("Variationskoeffizient in %")
 

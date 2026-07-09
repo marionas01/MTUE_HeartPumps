@@ -1,3 +1,5 @@
+import pandas as pd
+
 from functions import *
 
 if __name__ == '__main__':
@@ -26,6 +28,20 @@ if __name__ == '__main__':
              col_names=["Druckdifferenz H", "Volumenstrom Q"],
              rpm=[4000, 6000, 8000])
 
+    # Axial Pump
+    df_axial_6k = pd.DataFrame(data=
+                               {"Druckdifferenz H": [14, 6, 7, 6, 9],
+                                "Volumenstrom Q": [0, 2, 3, 4, 4.5]})
+    df_axial_7k = pd.DataFrame(data=
+                               {"Druckdifferenz H": [30, 23, 26, 24, 25],
+                                "Volumenstrom Q": [0, 1, 3, 4, 5.3]})
+    df_axial_8k = pd.DataFrame(data=
+                               {"Druckdifferenz H": [58, 47, 42, 43, 35],
+                                "Volumenstrom Q": [0, 1, 3, 4, 5.6]})
+    df_axial_9k = pd.DataFrame(data=
+                               {"Druckdifferenz H": [74, 62, 55, 58, 45],
+                                "Volumenstrom Q": [0, 1, 3, 4, 5.6]})
+
     # Original Data
     """
     df = pd.read_csv(path, skiprows=0)
@@ -44,4 +60,16 @@ if __name__ == '__main__':
 
     evaluate_pulsatile("radial_pump/Pulsatil_4000rpm.csv", 4000, 9, 21)
     evaluate_pulsatile("radial_pump/Pulsatil_6000rpm.csv", 6000, 55, 64)
-    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 91, 95)
+    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 92, 94)
+
+    # Compare pulsatile with stationary
+    col_names = ["Volumenstrom Q", "Druckdifferenz H"]
+    mean_6k = mean_sorted_data(data=sorted_data_6k,
+                               col_names=col_names)
+    mean_8k = mean_sorted_data(data=sorted_data_8k,
+                               col_names=col_names)
+
+    comp_data = [mean_6k, mean_8k, df_axial_6k, df_axial_8k]
+    comp_legend = ["Radial bei 6000 rpm", "Radial bei 8000 rpm", "Axial bei 6000 rpm", "Axial bei 8000 rpm"]
+    plot_pump_curve_compare(data=comp_data,
+                            legend_names=comp_legend)

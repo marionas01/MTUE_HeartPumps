@@ -169,3 +169,28 @@ def evaluate_pulsatile(path, rpm, t_start, t_end):
     fig.suptitle(f"Pulsatiler Betrieb - {rpm} rpm")
     plt.tight_layout()
     plt.show()
+
+
+def mean_sorted_data(data: dict[pd.DataFrame], col_names: list[str]) -> pd.DataFrame:
+    d: dict = {}
+    for col in col_names:
+        d[col] = [data[key][col].mean() for key in data]
+
+    df = pd.DataFrame(data = d)
+    return df
+
+
+def plot_pump_curve_compare(data: list[pd.DataFrame],
+                            legend_names: list[str]) -> None:
+    fig, ax = plt.subplots(figsize=(15, 7.5))
+    for dd in data:
+        dd.plot("Volumenstrom Q", "Druckdifferenz H",
+                ax=ax,
+                style='s-',
+                grid=True,
+                xlabel="Volumenstrom Q in L/min",
+                ylabel="Druckdifferenz H in mmHg",
+                title="H-Q-Diagramm")
+    ax.legend(legend_names)
+    plt.tight_layout()
+    plt.show()

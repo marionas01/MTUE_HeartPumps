@@ -56,29 +56,39 @@ if __name__ == '__main__':
     path_6000 = "radial_pump/Pulsatil_6000rpm.csv"
     path_8000 = "radial_pump/Pulsatil_8000rpm.csv"
 
-    evaluate_pulsatile("radial_pump/Pulsatil_4000rpm.csv", 4000, 9, 21)
-    evaluate_pulsatile("radial_pump/Pulsatil_6000rpm.csv", 6000, 55, 64)
-    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 70, 100)
-    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 92, 94)
+    puls_data: list = []
+    _ = evaluate_pulsatile(path_4000, 4000, 9, 21)
+    puls_data.append(_)
+    _ = evaluate_pulsatile(path_6000, 6000, 55, 64)
+    puls_data.append(_)
+    evaluate_pulsatile(path_8000, 8000, 70, 100)
+    _ = evaluate_pulsatile(path_8000, 8000, 92, 94)
+    puls_data.append(_)
 
-    #HQ Axial
+    # Mean pulsating in pump curve
+    plot_pump_curve(data=data,
+                    col_names=["Druckdifferenz H", "Volumenstrom Q"],
+                    rpm=[4000, 6000, 8000],
+                    add_points=puls_data)
+
+    # HQ Axial
     axial_data = {
-    6000: {
-        "Q":  [4.5, 4, 3, 2, 0],
-        "H":  [9, 6, 7, 6, 14]
-    },
-    7000: {
-        "Q":  [5.3, 4, 3, 1, 0],
-        "H":  [25, 24, 23, 26, 30]
-    },
-    8000: {
-        "Q":  [5.6, 4, 3, 1, 0],
-        "H":  [35, 43, 42, 47, 58]
-    },
-    9000: {
-        "Q":  [5.6, 4, 3, 1, 0],
-        "H":  [45, 58, 55, 62, 74]
-    }
+        6000: {
+            "Q":  [4.5, 4, 3, 2, 0],
+            "H":  [9, 6, 7, 6, 14]
+        },
+        7000: {
+            "Q":  [5.3, 4, 3, 1, 0],
+            "H":  [25, 24, 23, 26, 30]
+        },
+        8000: {
+            "Q":  [5.6, 4, 3, 1, 0],
+            "H":  [35, 43, 42, 47, 58]
+        },
+        9000: {
+            "Q":  [5.6, 4, 3, 1, 0],
+            "H":  [45, 58, 55, 62, 74]
+        }
     }
     plot_axial_curve(axial_data)
 
@@ -95,3 +105,4 @@ if __name__ == '__main__':
     comp_legend = ["Radial bei 6000 rpm", "Radial bei 8000 rpm", "Axial bei 6000 rpm", "Axial bei 8000 rpm"]
     plot_pump_curve_compare(data=comp_data,
                             legend_names=comp_legend)
+

@@ -26,7 +26,7 @@ def sort_data(path: str, dictionary: dict, index_range: int) -> dict:
     return storage
 
 
-def plot_pump_curve(data: list[dict], col_names: list, rpm: list) -> None:
+def plot_pump_curve(data: list[dict], col_names: list, rpm: list, add_points: None | list[tuple] = None) -> None:
 
     if len(data) != len(rpm):
         raise ValueError("Length of data and rpm lists does not match!")
@@ -54,6 +54,11 @@ def plot_pump_curve(data: list[dict], col_names: list, rpm: list) -> None:
                     xlabel="Volumenstrom Q in L/min", ylabel="Druckdifferenz H in mmHg",
                     title="H-Q-Diagramm")
             del df_storage
+
+        if add_points:
+            for elem in add_points:
+                ax.plot(elem[0], elem[1], marker="X", label=f"pulsatiler Mittelwert {elem[2]} rpm")
+        ax.legend()
 
         plt.tight_layout()
         plt.show()
@@ -134,7 +139,7 @@ def plot_std(data: list[dict], col_names: list[str], rpm: list) -> None:
         plt.show()
 
 
-def evaluate_pulsatile(path, rpm, t_start, t_end):
+def evaluate_pulsatile(path, rpm, t_start, t_end) -> tuple:
 
     df = pd.read_csv(path)
 
@@ -170,11 +175,13 @@ def evaluate_pulsatile(path, rpm, t_start, t_end):
     plt.tight_layout()
     plt.show()
 
+    return mean_Q, mean_H, rpm
+
 
 # HQ Diagramm der Axialpumpe
 def plot_axial_curve(axial_data):
 
-    plt.figure(figsize=(10,6))
+    plt.figure(figsize=(10, 6))
 
     for rpm, values in axial_data.items():
 
@@ -198,7 +205,7 @@ def mean_sorted_data(data: dict[pd.DataFrame], col_names: list[str]) -> pd.DataF
     for col in col_names:
         d[col] = [data[key][col].mean() for key in data]
 
-    df = pd.DataFrame(data = d)
+    df = pd.DataFrame(data=d)
     return df
 
 

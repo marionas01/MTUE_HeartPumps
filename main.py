@@ -1,5 +1,3 @@
-import pandas as pd
-
 from functions import *
 
 if __name__ == '__main__':
@@ -60,6 +58,30 @@ if __name__ == '__main__':
 
     evaluate_pulsatile("radial_pump/Pulsatil_4000rpm.csv", 4000, 9, 21)
     evaluate_pulsatile("radial_pump/Pulsatil_6000rpm.csv", 6000, 55, 64)
+    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 70, 100)
+    evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 92, 94)
+
+    #HQ Axial
+    axial_data = {
+    6000: {
+        "Q":  [4.5, 4, 3, 2, 0],
+        "H":  [9, 6, 7, 6, 14]
+    },
+    7000: {
+        "Q":  [5.3, 4, 3, 1, 0],
+        "H":  [25, 24, 23, 26, 30]
+    },
+    8000: {
+        "Q":  [5.6, 4, 3, 1, 0],
+        "H":  [35, 43, 42, 47, 58]
+    },
+    9000: {
+        "Q":  [5.6, 4, 3, 1, 0],
+        "H":  [45, 58, 55, 62, 74]
+    }
+    }
+    plot_axial_curve(axial_data)
+
     evaluate_pulsatile("radial_pump/Pulsatil_8000rpm.csv", 8000, 92, 94)
 
     # Compare pulsatile with stationary

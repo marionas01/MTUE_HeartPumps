@@ -170,6 +170,27 @@ def evaluate_pulsatile(path, rpm, t_start, t_end):
     plt.tight_layout()
     plt.show()
 
+    # HQ Diagramm der Axialpumpe
+    def plot_axial_curve(axial_data):
+
+    plt.figure(figsize=(10,6))
+
+    for rpm, values in axial_data.items():
+
+        Q = values["Q"]
+        H = values["H"]
+        Q, H = zip(*sorted(zip(Q, H)))
+
+        plt.plot(Q, H, "o-", label=f"{rpm} rpm")
+
+    plt.xlabel("Volumenstrom Q [L/min]")
+    plt.ylabel("Druckdifferenz H [mmHg]")
+    plt.title("H-Q-Diagramm Axialpumpe")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
 
 def mean_sorted_data(data: dict[pd.DataFrame], col_names: list[str]) -> pd.DataFrame:
     d: dict = {}

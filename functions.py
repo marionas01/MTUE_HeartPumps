@@ -170,8 +170,9 @@ def evaluate_pulsatile(path, rpm, t_start, t_end):
     plt.tight_layout()
     plt.show()
 
-    # HQ Diagramm der Axialpumpe
-    def plot_axial_curve(axial_data):
+
+# HQ Diagramm der Axialpumpe
+def plot_axial_curve(axial_data):
 
     plt.figure(figsize=(10,6))
 
